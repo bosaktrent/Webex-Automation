@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Sample Python script that creats a new room, adds a user, and sends a message.
+"""Sample Python script that creats a new room, and adds users from an excel spreadsheet.
 
 Copyright (c) 2019 Cisco and/or its affiliates.
 
