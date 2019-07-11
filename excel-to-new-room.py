@@ -23,8 +23,9 @@ __author__ = "Trent Bosak <tbosak@cisco.com>"
 __copyright__ = "Copyright (c) 2019 Cisco and/or its affiliates."
 __license__ = "Cisco Sample Code License, Version 1.1"
 
-import requests
 import json
+import requests
+import pandas as pd
 
 def createRoom(roomName):
     # Creates a new room with the name stored in roomName
@@ -34,23 +35,24 @@ def createRoom(roomName):
     }
     headers = {
         'Content-Type': "application/x-www-form-urlencoded",
-        'Authorization': token                   # Personal access token
+        'Authorization': token              # Personal access token
     }
     response = requests.request("POST", url, data=payload, headers=headers)
     return response.json()["id"]
 
-def addUser(userEmail, roomId):
-    # Adds a new user with userEmail to room with roomId
-    url = "https://api.ciscospark.com/v1/memberships"
-    payload = {
-        'roomId': roomId,
-        'personEmail': userEmail
-    }
-    headers = {
-        'Authorization': token,                  # Personal access token
-        'Content-Type': "application/x-www-form-urlencoded",
-    }
-    requests.request("POST", url, data=payload, headers=headers)
+def addUsers(user_emails, roomId):
+    # Adds new users stored in user_emails
+    for user_email in user_emails.index:
+        url = "https://api.ciscospark.com/v1/memberships"
+        payload = {
+            'roomId': roomId,
+            'personEmail': user_email
+            }
+        headers = {
+            'Authorization': token,         # Personal access token
+            'Content-Type': "application/x-www-form-urlencoded",
+            }
+        requests.request("POST", url, data=payload, headers=headers)
 
 def sendMessage(message, roomId):
     # Sends a message to the new room
@@ -60,7 +62,7 @@ def sendMessage(message, roomId):
         'text': message
     }
     headers = {
-        'Authorization': token,                  # Personal access token
+        'Authorization': token,             # Personal access token
         'Content-Type': "application/x-www-form-urlencoded",
     }
     response = requests.request("POST", url, data=payload, headers=headers)
@@ -78,14 +80,15 @@ def displayDoc():
         )
 
 def main():
+    filename = 'email_addresses.xlsx'       # File containing email_addresses
     room_name = "My New Room"               # New room name
-    user_name = "gifbot@webex.bot"          # User to add to new room
-    message = "Hello World!"                # Message to send to new room
+    message = "Welcome!"                    # Message to send to new room
+    user_emails = pd.read_excel(filename, sheet_name='Sheet1', index_col='Email Address')
     roomId = createRoom(room_name)          # Creates a new room and returns roomId
-    addUser(user_name, roomId)              # Adds new user to room
+    addUsers(user_emails, roomId)           # Adds new user to room
     sendMessage(message, roomId)            # Sends message to new room
     displayDoc()
 
 if __name__ == '__main__':
-    token = "Bearer {}"                      # Personal access token
+    token = "Bearer {}"                     # Personal access token
     main()
