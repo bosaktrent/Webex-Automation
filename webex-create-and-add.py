@@ -61,10 +61,9 @@ def sendMessage(message, roomId):
     }
     headers = {
         'Authorization': token,                  # Personal access token
-        'Content-Type': "application/json",
+        'Content-Type': "application/x-www-form-urlencoded",
     }
     response = requests.request("POST", url, data=payload, headers=headers)
-    print(response)
 
 def displayDoc():
     # Displays documentation
@@ -88,5 +87,5 @@ def main():
     displayDoc()
 
 if __name__ == '__main__':
-    token = "{}"                            # Personal access token
+    token = "Bearer {}"                            # Personal access token
     main()
