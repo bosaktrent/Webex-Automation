@@ -1,4 +1,7 @@
 # Cisco Webex Teams Automation
+
+[![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/bosaktrent/Webex-Automation)
+
 This repository contains some simple scripts to automate tasks in Cisco Webex Teams.
 
 To get started you'll need to `install` the required modules and update the token as shown below.
